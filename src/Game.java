@@ -7,7 +7,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -15,52 +14,59 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     private int playerX, playerY;
     private int playerVelocityY, playerVelocityX;
     private boolean isJumping, isOnGround, isOnPlat, hasBumpedS, hasBumpedT, isSlidingR,isSlidingL, chargeJ, rightJ, leftJ;
-    private int jumpValue, currentLevel, slidingRFinalX, slidingRFinalY,slidingLFinalX, slidingLFinalY, slideLengthR, slideLengthL;
-    private List<HorizontalLine> horizontalLines;
-    private List<VerticalLine> verticalLines;
-    private List<HorizontalLine> horizontalLines1;
-    private List<VerticalLine> verticalLines1;
-    private List<HorizontalLine> horizontalLines2;
-    private List<VerticalLine> verticalLines2;
-    private List<HorizontalLine> horizontalLines3;
-    private List<VerticalLine> verticalLines3;
-    private List<HorizontalLine> horizontalLines4;
-    private List<VerticalLine> verticalLines4;
-    private List<HorizontalLine> horizontalLines5;
-    private List<VerticalLine> verticalLines5;
-    private List<HorizontalLine> horizontalLines6;
-    private List<VerticalLine> verticalLines6;
-    private List<HorizontalLine> horizontalLines7;
-    private List<VerticalLine> verticalLines7;
-    private List<HorizontalLine> horizontalLines8;
-    private List<VerticalLine> verticalLines8;
-    private List<HorizontalLine> horizontalLines9;
-    private List<VerticalLine> verticalLines9;
-    private List<HorizontalLine> horizontalLines10;
-    private List<VerticalLine> verticalLines10;
-    private List<DiagonalLineR> diagonalLinesR;
-    private List<DiagonalLineR> diagonalLinesR1;
-    private List<DiagonalLineR> diagonalLinesR2;
-    private List<DiagonalLineR> diagonalLinesR3;
-    private List<DiagonalLineR> diagonalLinesR4;
-    private List<DiagonalLineR> diagonalLinesR5;
-    private List<DiagonalLineR> diagonalLinesR6;
-    private List<DiagonalLineR> diagonalLinesR7;
-    private List<DiagonalLineR> diagonalLinesR8;
-    private List<DiagonalLineR> diagonalLinesR9;
-    private List<DiagonalLineR> diagonalLinesR10;
-    private List<DiagonalLineL> diagonalLinesL;
-    private List<DiagonalLineL> diagonalLinesL1;
-    private List<DiagonalLineL> diagonalLinesL2;
-    private List<DiagonalLineL> diagonalLinesL3;
-    private List<DiagonalLineL> diagonalLinesL4;
-    private List<DiagonalLineL> diagonalLinesL5;
-    private List<DiagonalLineL> diagonalLinesL6;
-    private List<DiagonalLineL> diagonalLinesL7;
-    private List<DiagonalLineL> diagonalLinesL8;
-    private List<DiagonalLineL> diagonalLinesL9;
-    private List<DiagonalLineL> diagonalLinesL10;
-    private LevelSetUp levelSetUp;
+    private int jumpValue;
+    private final int currentLevel;
+    private int slidingRFinalX;
+    private int slidingRFinalY;
+    private int slidingLFinalX;
+    private int slidingLFinalY;
+    private int slideLengthR;
+    private int slideLengthL;
+    private final List<HorizontalLine> horizontalLines;
+    private final List<VerticalLine> verticalLines;
+    private final List<HorizontalLine> horizontalLines1;
+    private final List<VerticalLine> verticalLines1;
+    private final List<HorizontalLine> horizontalLines2;
+    private final List<VerticalLine> verticalLines2;
+    private final List<HorizontalLine> horizontalLines3;
+    private final List<VerticalLine> verticalLines3;
+    private final List<HorizontalLine> horizontalLines4;
+    private final List<VerticalLine> verticalLines4;
+    private final List<HorizontalLine> horizontalLines5;
+    private final List<VerticalLine> verticalLines5;
+    private final List<HorizontalLine> horizontalLines6;
+    private final List<VerticalLine> verticalLines6;
+    private final List<HorizontalLine> horizontalLines7;
+    private final List<VerticalLine> verticalLines7;
+    private final List<HorizontalLine> horizontalLines8;
+    private final List<VerticalLine> verticalLines8;
+    private final List<HorizontalLine> horizontalLines9;
+    private final List<VerticalLine> verticalLines9;
+    private final List<HorizontalLine> horizontalLines10;
+    private final List<VerticalLine> verticalLines10;
+    private final List<DiagonalLineR> diagonalLinesR;
+    private final List<DiagonalLineR> diagonalLinesR1;
+    private final List<DiagonalLineR> diagonalLinesR2;
+    private final List<DiagonalLineR> diagonalLinesR3;
+    private final List<DiagonalLineR> diagonalLinesR4;
+    private final List<DiagonalLineR> diagonalLinesR5;
+    private final List<DiagonalLineR> diagonalLinesR6;
+    private final List<DiagonalLineR> diagonalLinesR7;
+    private final List<DiagonalLineR> diagonalLinesR8;
+    private final List<DiagonalLineR> diagonalLinesR9;
+    private final List<DiagonalLineR> diagonalLinesR10;
+    private final List<DiagonalLineL> diagonalLinesL;
+    private final List<DiagonalLineL> diagonalLinesL1;
+    private final List<DiagonalLineL> diagonalLinesL2;
+    private final List<DiagonalLineL> diagonalLinesL3;
+    private final List<DiagonalLineL> diagonalLinesL4;
+    private final List<DiagonalLineL> diagonalLinesL5;
+    private final List<DiagonalLineL> diagonalLinesL6;
+    private final List<DiagonalLineL> diagonalLinesL7;
+    private final List<DiagonalLineL> diagonalLinesL8;
+    private final List<DiagonalLineL> diagonalLinesL9;
+    private final List<DiagonalLineL> diagonalLinesL10;
+    private final LevelSetUp levelSetUp;
     private BufferedImage playerStandingSprite;
     private BufferedImage playerSquatingSprite;
     private BufferedImage playerCSprite;
@@ -621,7 +627,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
 
         //checking if the player walks of a platform
-        if (isOnGround == true){
+        if (isOnGround){
             isOnPlat = false;
             for (HorizontalLine line : horizontalLines){
                 if ((playerY + 60 >= line.getBounds().y && playerY + 59 <= line.getBounds().y + 1)) {
@@ -631,24 +637,24 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                     }
                 }
             }
-            if (isOnPlat == false){
+            if (!isOnPlat){
                 isJumping = true;
-                if (rightJ == true){
+                if (rightJ){
                     playerVelocityX = 5;
                 }
-                else if (leftJ == true) {
+                else if (leftJ) {
                     playerVelocityX = -5;
                 }
             }
             for (VerticalLine line : verticalLines) {
                 if ((playerY + 58 >= line.getBounds().y && playerY <= line.getBounds().y + line.getBounds().height)) {
                     if (playerX + 45 >= line.getBounds().x && playerX + 36 <= line.getBounds().x + line.getBounds().width) {
-                        if (rightJ == true){
+                        if (rightJ){
                             playerX = line.getBounds().x - 47;
                         }
                     }
                     if (playerX + 11 >= line.getBounds().x && playerX - 2 <= line.getBounds().x + line.getBounds().width) {
-                        if (leftJ == true) {
+                        if (leftJ) {
                             playerX = line.getBounds().x + 2;
                         }
                     }
@@ -660,7 +666,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
 
         //gravity
-        if (isJumping == true) {
+        if (isJumping) {
             if (playerVelocityY > -15) {
                 playerVelocityY -= 1;
             }
@@ -668,7 +674,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             playerY -= playerVelocityY;
         }
 
-        if (chargeJ == true && jumpValue < 30){
+        if (chargeJ && jumpValue < 30){
             jumpValue+=1;
         }
 
@@ -750,7 +756,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             playerVelocityX = (playerVelocityX*2)/5;
             hasBumpedS = false;
         }
-        if (hasBumpedT == true){
+        if (hasBumpedT){
             hasBumpedT = false;
         }
 
@@ -775,16 +781,16 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         if (key == KeyEvent.VK_SPACE && !isJumping && !isSlidingR && !isSlidingL && jumpValue<30) {
             chargeJ = true;
         }
-        else if ((key == KeyEvent.VK_LEFT) && (jumpValue == 0) && isJumping == false) {
+        else if ((key == KeyEvent.VK_LEFT) && (jumpValue == 0) && !isJumping) {
             playerX -= 7;
         }
-        else if ((key == KeyEvent.VK_RIGHT) && (jumpValue == 0) && isJumping == false) {
+        else if ((key == KeyEvent.VK_RIGHT) && (jumpValue == 0) && !isJumping) {
             playerX += 7;
         }
-        if (key == KeyEvent.VK_RIGHT && rightJ == false){
+        if (key == KeyEvent.VK_RIGHT && !rightJ){
             rightJ = true;
         }
-        else if (key == KeyEvent.VK_LEFT && leftJ == false){
+        else if (key == KeyEvent.VK_LEFT && !leftJ){
             leftJ = true;
         }
         if (key == KeyEvent.VK_N){
@@ -794,37 +800,37 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE && isJumping == false && !isSlidingR && !isSlidingL){
+        if (e.getKeyCode() == KeyEvent.VK_SPACE && !isJumping && !isSlidingR && !isSlidingL){
             chargeJ = false;
             isJumping = true;
             if (jumpValue <= 4){
                 playerVelocityY = 8;
             }
-            else if ((4 < jumpValue) && (jumpValue <=6)){
+            else if (jumpValue <=6){
                 playerVelocityY = 10;
             }
-            else if ((6 < jumpValue) && (jumpValue <=9)){
+            else if (jumpValue <=9){
                 playerVelocityY = 13;
             }
-            else if ((9 < jumpValue) && (jumpValue <=15)){
+            else if (jumpValue <=15){
                 playerVelocityY = 16;
             }
-            else if ((15 < jumpValue) && (jumpValue <=20)){
+            else if (jumpValue <=20){
                 playerVelocityY = 20;
             }
-            else if ((20 < jumpValue) && (jumpValue <=25)){
+            else if (jumpValue <=25){
                 playerVelocityY = 23;
             }
             else if (jumpValue <=29){
                 playerVelocityY = 25;
             }
-            else if ((29 < jumpValue) && (jumpValue <=30)){
+            else if (jumpValue <=30){
                 playerVelocityY = 28;
             }
-            if (rightJ == true){
+            if (rightJ){
                 playerVelocityX = 10;
             }
-            else if (leftJ == true){
+            else if (leftJ){
                 playerVelocityX = -10;
             }
             jumpValue = 0;
