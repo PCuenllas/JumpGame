@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Jump:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Jump_jar</output-path>
-    <root id="archive" name="Jump.jar">
-      <element id="module-output" name="Jump" />
-      <element id="dir-copy" path="$PROJECT_DIR$/res" />
-    </root>
-  </artifact>
-</component>
