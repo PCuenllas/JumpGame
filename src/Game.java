@@ -11,20 +11,19 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
-    private int playerX, playerY;
-    private int playerVelocityY, playerVelocityX;
-    private boolean isJumping, isOnGround, isOnPlat, hasBumpedS, hasBumpedT, isSlidingR,isSlidingL, chargeJ, rightJ, leftJ;
-    private int jumpValue;
-    private final int currentLevel;
-    private int slidingRFinalX;
-    private int slidingRFinalY;
-    private int slidingLFinalX;
-    private int slidingLFinalY;
-    private int slideLengthR;
-    private int slideLengthL;
-    private final List<HorizontalLine> horizontalLines;
-    private final List<VerticalLine> verticalLines;
-    private final List<HorizontalLine> horizontalLines1;
+    private int playerX, playerY; // The players coordinates
+    private int playerVelocityY, playerVelocityX; //players velocity
+    private boolean isJumping, isOnGround, isOnPlat, hasBumpedS, hasBumpedT, isSlidingR,isSlidingL, chargeJ, rightJ, leftJ; //booleans for different interactions
+    private int jumpValue; //used to see how high the jump will be
+    private int slidingRFinalX, slidingRFinalY, slidingLFinalX,slidingLFinalY; //the position where the player will end after siliding off a slope
+    private int slideLengthR, slideLengthL; //how much does the player has left of sliding to get out of the slope
+    private final List<HorizontalLine> horizontalLines;//horizontal lines of level 0, each line create the platforms in the game
+    private final List<VerticalLine> verticalLines;//vertical lines of level 0
+    private final List<HorizontalLine> horizontalLines1;//horizontal lines of level 1
+    // the levels change when the player reaches the top
+    // of the level, so when the player reaches to the top of the level 0
+    // he would appear with the same momentum at the bottom of level 1 with all the platforms of level 1 now rendered
+    // and with the platforms of lvl 0 unrendered*/
     private final List<VerticalLine> verticalLines1;
     private final List<HorizontalLine> horizontalLines2;
     private final List<VerticalLine> verticalLines2;
@@ -73,7 +72,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
 
     public Game() {
-        playerX = 600;
+        playerX = 600; //initial position
         playerY = 700;
         playerVelocityY = 0;
         isJumping = false;
@@ -85,16 +84,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         hasBumpedT = false;
         chargeJ = false;
         jumpValue = 0;
-        currentLevel = 0;
         isSlidingR = false;
         isSlidingL = false;
         slidingRFinalX = 0;
         slidingRFinalY = 0;
 
 
-
-        horizontalLines = new ArrayList<>();
-        horizontalLines.add(new HorizontalLine(20, 400, 320, 400));
+        horizontalLines = new ArrayList<>(); //initializing horizontal lines array list
+        horizontalLines.add(new HorizontalLine(20, 400, 320, 400));//then adding all of the individual horizontal lines that make up the platforms
         horizontalLines.add(new HorizontalLine(320, 760, 880, 760));
         horizontalLines.add(new HorizontalLine(880, 400, 1180, 400));
         horizontalLines.add(new HorizontalLine(460, 100, 740, 100));
@@ -450,11 +447,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         horizontalLines9.add(new HorizontalLine(980,740,1180,740));
         horizontalLines9.add(new HorizontalLine(370,525,550,525));
         horizontalLines9.add(new HorizontalLine(20,425,120,425));
-        horizontalLines9.add(new HorizontalLine(370,295,1180,295));
+        horizontalLines9.add(new HorizontalLine(370,295,450,295));
         horizontalLines9.add(new HorizontalLine(370,250,450,250));
-        horizontalLines9.add(new HorizontalLine(450,275,545,275));
+        horizontalLines9.add(new HorizontalLine(545,295,630,295));
         horizontalLines9.add(new HorizontalLine(545,225,630,225));
-        horizontalLines9.add(new HorizontalLine(630,275,710,275));
+        horizontalLines9.add(new HorizontalLine(710,295,710,295));
 
         verticalLines9 = new ArrayList<>();
         verticalLines9.add(new VerticalLine(20,-10,20,425));
@@ -465,9 +462,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         verticalLines9.add(new VerticalLine(370,525,370,800));
         verticalLines9.add(new VerticalLine(550,525,550,800));
         verticalLines9.add(new VerticalLine(370,250,370,295));
-        verticalLines9.add(new VerticalLine(450,250,450,275));
-        verticalLines9.add(new VerticalLine(545,225,545,275));
-        verticalLines9.add(new VerticalLine(630,225,630,275));
+        verticalLines9.add(new VerticalLine(450,250,450,295));
+        verticalLines9.add(new VerticalLine(545,225,545,295));
+        verticalLines9.add(new VerticalLine(630,225,630,295));
 
         diagonalLinesR9 = new ArrayList<>();
         diagonalLinesL9 = new ArrayList<>();
@@ -492,7 +489,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         levelSetUp.addLevel(horizontalLines10,verticalLines10, diagonalLinesR10, diagonalLinesL10);
         loadCurrentLevel();
 
-        // Set up the game loop
+        //Sets up the game loop
         Timer timer = new Timer(15, this);
         timer.start();
 
@@ -501,7 +498,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         setFocusTraversalKeysEnabled(false);
 
         try {
-            // We use getClass().getResource() to find the path inside the JAR
+            //getClass().getResource() to find the path inside the JAR
             playerStandingSprite = ImageIO.read(getClass().getResource("/player/idle.png"));
             playerSquatingSprite = ImageIO.read(getClass().getResource("/player/squat.png"));
         } catch (IOException e) {
@@ -514,32 +511,28 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     }
 
     public void loadCurrentLevel() {
-        levelSetUp.loadLevel(currentLevel);
-    }
-
+        levelSetUp.loadLevel(0);
+    }//sets up the first level
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // Draw the appropriate sprite based on the player's action
-        if (chargeJ){
+        if (chargeJ){//if player is charging the jump the sprite is the squat sprite
             playerCSprite = playerSquatingSprite;
         }
-        else{
+        else{//idle if not charging jump
             playerCSprite = playerStandingSprite;
         }
         BufferedImage playerSprite = playerCSprite;
 
-        g.drawImage(playerSprite, playerX, playerY, 45, 60, null);
+        g.drawImage(playerSprite, playerX, playerY, 45, 60, null); //draws the image
 
-
-        //draws Hlines
+        //draws current Hlines
         for (HorizontalLine line : horizontalLines) {
             line.draw(g);
         }
 
-        //draws Vlines
+        //draws current Vlines
         for (VerticalLine line : verticalLines) {
             line.draw(g);
         }
@@ -678,6 +671,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             jumpValue+=1;
         }
 
+        //sliding off a platform
         if(isSlidingR){
             if(slidingRFinalX<playerX+45 && slidingRFinalY>playerY-60 && slidingRFinalX+slideLengthR>playerX && slidingRFinalY-slideLengthR<playerY || slidingRFinalX<playerX+45 && slidingRFinalY>playerY-60 && playerVelocityX<0){
                 if (playerVelocityX>-5){
@@ -751,6 +745,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             }
         }
 
+        //after bumping a wall the velocity is reduced
         if (hasBumpedS){
             playerX += playerVelocityX/2;
             playerVelocityX = (playerVelocityX*2)/5;
@@ -760,6 +755,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             hasBumpedT = false;
         }
 
+        //if reaching the top or bottom of the level then loading next level
         if (playerY < -60) {
             levelSetUp.nextLevel();
             playerY = 730;
@@ -769,6 +765,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             playerY = -60;
         }
 
+        //unless the player is sliding off a diagonal line the player will move right or left if a right or left key is being pressed
         if(!isSlidingR && !isSlidingL) {
             playerX += playerVelocityX;
         }
